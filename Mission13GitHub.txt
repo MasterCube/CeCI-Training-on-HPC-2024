@@ -449,4 +449,3 @@ Initialize your local directory as a Git repository.
 Add and commit the files.
 Link the local repository to the GitHub remote.
 Push to GitHub.
-Let me know if you need any further assistance with these steps!
