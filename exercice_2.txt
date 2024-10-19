@@ -1,0 +1,19 @@
+[mjoiret@lm4-f001 bash_exercices]$ cat exercices_2.sh
+#!/bin/bash
+echo "Please provide two numbers:"
+echo "write your first integer and press 'enter' key."
+read number1
+echo "write your second integer and press 'enter' key."
+read number2
+echo "your first integer was $number1 and your second integer was $number2."
+if [ $number1 -lt 100 ] && [ $number2 -lt 100 ]
+then
+  if (( $number1 % 2 == 0 )) && (( $number2 % 2 == 0 ))
+    then
+      echo "Your two input numbers $number1 and $number2 are smaller than 100 and are both even."
+    else
+      echo "Your numbers $number1 and $number2 are smaller than 100 and at least one of them is not even."
+    fi
+else
+   echo "At least one of your number is larger than 100."
+fi

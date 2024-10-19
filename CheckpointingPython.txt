@@ -1,0 +1,397 @@
+[mjoiret@lm4-f001 ~]$ cd /CECI/proj/training/checkpoint/2024
+[mjoiret@lm4-f001 2024]$ ls -h
+count-orig.py  count-signal.py        slurm.dmtcp          slurm_dmtcp_restart.sub   submit-signal2.sh  submit-signal.sh  test.out
+count.py       dmtcp_command.2283569  slurm_dmtcp_new.sub  slurm_dmtcp_solution.sub  submit-signal3.sh  test_dmtcp.sub
+
+WITHOUT CHECKPOINTING:
+[mission 16]/CECI/proj/training/checkpoint/2024 $ cat count-orig.py
+#!/usr/bin/env python
+import signal, time, sys
+
+
+import time
+import sys
+import ctypes
+libc = ctypes.CDLL("libc.so.6")
+
+start = 1
+stop = 500
+for i in range(start, stop):
+    print(i)
+    sys.stdout.flush()
+    libc.sync()
+    time.sleep(1)
+
+******************************************************************
+Here is the bash script running the previous python program
+[mjoiret@lm4-f001 CeCItraining]$ cat submit-count.sh
+#!/bin/bash
+
+#SBATCH --job-name=test
+#SBATCH --output=test_count_checkpointing.out
+#SBATCH --open-mode=append
+#SBATCH --time=0-00:00:30
+#SBATCH --ntasks=1
+
+date
+#echo "restarted ${SLURM_RESTART_COUNT-0}"
+echo "execute count program without checkpointing"
+module load releases/2023a
+module load Python/3.11.3-GCCcore-12.3.0
+python --version
+srun --overcommit -n1 python -u ./count-orig.py
+[mjoiret@lm4-f001 CeCItraining]$
+
+******************************************************************
+WITH CHECKPOINTING (using SOFTWARE and a file to retrieve information from):
+[mjoiret@lm4-f001 2024]$ cat count.py
+#!/usr/bin/env python
+import signal, time, sys
+import ctypes
+libc = ctypes.CDLL("libc.so.6")
+
+try:
+    start = int(open('state','r').read())
+except Exception:
+    start =1
+
+stop = 500
+for i in range(start, stop):
+    print(i)
+    with open('state', 'w') as fsock:
+        fsock.write(str(i+1))
+    sys.stdout.flush()
+    libc.sync()
+    time.sleep(1)
+
+********************************************************************
+Question what does SLURM_RESTART_COUNT stand for?
+SLURM (Simple Linux Utility for Resource Management) uses a variety of environment variables to manage job submissions and scheduling. 
+These variables provide information about the job and its environment, which can be useful for scripting and job management.
+
+Here are some common SLURM environment variables:
+
+General Job Information:
+SLURM_JOB_ID: The unique ID for the job.
+SLURM_JOB_NAME: The name of the job.
+SLURM_JOB_NODELIST: The list of nodes assigned to the job.
+SLURM_JOB_NUM_NODES: The number of nodes assigned to the job.
+SLURM_JOB_CPUS_PER_NODE: The number of CPUs per node.
+SLURM_NTASKS: Total number of tasks allocated to the job.
+SLURM_NTASKS_PER_NODE: Number of tasks per node.
+SLURM_NPROCS: Deprecated (use SLURM_NTASKS).
+SLURM_NODELIST: List of nodes allocated to the job (alias for SLURM_JOB_NODELIST).
+SLURM_SUBMIT_DIR: The directory from which the job was submitted.
+SLURM_SUBMIT_HOST: The host from which the job was submitted.
+Task Information:
+SLURM_PROCID: The task ID within a parallel job.
+SLURM_LOCALID: Task ID relative to the node (starting from 0 for each node).
+SLURM_TASK_PID: Process ID of the current task.
+Job Array Information:
+SLURM_ARRAY_JOB_ID: The ID for the job array (parent job ID).
+SLURM_ARRAY_TASK_ID: The index of the current task in the array.
+SLURM_ARRAY_TASK_COUNT: Total number of tasks in the array.
+SLURM_ARRAY_TASK_MAX: Maximum task ID in the array.
+SLURM_ARRAY_TASK_MIN: Minimum task ID in the array.
+Resource Allocation:
+SLURM_CPUS_ON_NODE: Number of CPUs available on the allocated node.
+SLURM_MEM_PER_CPU: Memory allocated per CPU (in MB).
+SLURM_MEM_PER_NODE: Memory allocated per node (in MB).
+Job Restart Information:
+SLURM_RESTART_COUNT: This variable indicates the number of times a job has been restarted due to node failures or other reasons.
+It is useful for handling checkpoint-restart scenarios in fault-tolerant computing. A value of 0 means that the job is running 
+for the first time, while higher values indicate how many times it has been restarted.
+By understanding these environment variables, you can make your job scripts more dynamic and responsive to the cluster environment, 
+ensuring better resource utilization and management.
+[mjoiret@lm4-f001 2024]$
+*************************************************************************
+Here is the bash script running the previous python program:
+[mjoiret@lm4-f001 CeCItraining]$ cat submit-count-checkpoint.sh
+#!/bin/bash
+
+#SBATCH --job-name=test
+#SBATCH --output=test_count_checkpointing.out
+#SBATCH --open-mode=append
+#SBATCH --time=0-00:00:30
+#SBATCH --ntasks=1
+
+date
+echo "restarted ${SLURM_RESTART_COUNT-0}"
+echo "execute count program with checkpointing example from the software itself..."
+module load releases/2023a
+module load Python/3.11.3-GCCcore-12.3.0
+python --version
+srun --overcommit -n1 python -u ./count.py
+
+*************************************************************************
+USING UNIX signals to save the state, do not save at each iteration. Catch the signal from UNIX.
+Different type of signals for interruption: CTRL C or ^C (SIGINT), ^D (SIGQUIT), ^Z (SIGSTP), kill -9 (SIGKILL), -kill (SIGTERM)
+
+[mjoiret@lm4-f001 2024]$ cat count-signal.py
+#!/usr/bin/env python
+import signal, time, sys
+
+# to avoid buffering of the stdout
+import ctypes
+libc = ctypes.CDLL("libc.so.6")
+
+
+interupted=False
+def signal_handler(signum, frame):
+    global interupted
+    interupted = True
+
+signal.signal(signal.SIGINT, signal_handler)
+# SIGINT is the ^C signal that can come either from the timer SIGINT@20 in the bash script (see below) 
+# or from a user interacting with the JOBID to cancel it through the command:
+# scancel -s SIGINT JOBID
+
+try:
+    start = int(open('state','r').read())
+except Exception:
+    start =1
+
+stop = 500
+for i in range(start, stop):
+    if interupted:
+        break
+    print(i)
+    sys.stdout.flush()
+    libc.sync()
+    time.sleep(1)
+
+with open('state','w') as f:
+    f.write(str(i))
+
+if interupted:
+    sys.exit(1)
+
+***************************************************************************
+The signal must come from the bash itself because once on the cluster, you cannot interact anymore with its execution !
+Here is the bash script running the previous python code wich will catch a signal SIGINT 20 seconds before the job reaches the wall time.
+
+OR
+
+There is actually a way to send a signal from SLURM and affect a job if you target the jobID specifically. You need to know the jobid.
+Remember how to determine a JOBid : squeue --me or sacct.
+
+How to cancel (or interrupt for checkpointing purposes) a jobid?
+scancel -s SIGINT JOBID
+
+[mjoiret@lm4-f001 2024]$ vim submit-signal.sh
+
+#!/bin/bash
+
+#SBATCH --job-name=test
+#SBATCH --output=test.out
+#SBATCH --open-mode=append
+#SBATCH --time=0-00:00:30
+#SBATCH --signal=SIGINT@20
+#SBATCH --ntasks=1
+
+date
+echo "restarted ${SLURM_RESTART_COUNT-0}"
+module load releases/2023a
+module load Python/3.11.3-GCCcore-12.3.0
+python --version
+srun --overcommit -n1 python -u ./count-signal.py
+
+
+*****************************************************************************
+In a Linux bash script, the trap command is used to catch and handle signals sent to the script. 
+Signals are events sent to a program to trigger a specific behavior, often to interrupt or terminate the program. 
+Common signals include SIGINT (triggered by pressing Ctrl+C), SIGTERM (used to terminate a program), 
+and EXIT (triggered when the script finishes).
+
+The basic syntax of trap is:
+
+bash
+
+trap 'commands' signal(s)
+commands: These are the commands that you want to execute when the specified signal(s) are received.
+signal(s): These are the signals you want to catch and handle.
+Example 1: Handling SIGINT
+If you want to handle an interruption (like pressing Ctrl+C), you can do this:
+
+bash
+
+trap 'echo "Script interrupted"; exit' SIGINT
+This will display the message "Script interrupted" and exit the script when SIGINT is received.
+--------------------------------------------------------------------------------------------------
+[mjoiret@lm4-f001 CeCItraining]$ cat submit-signal2.sh
+#!/bin/bash
+
+#SBATCH --job-name=test
+#SBATCH --output=test.out
+#SBATCH --open-mode=append
+#SBATCH --time=0-00:01:30
+#SBATCH --signal=SIGINT@30
+#SBATCH --ntasks=1
+
+date
+echo "restarted ${SLURM_RESTART_COUNT-0}"
+module load releases/2023a
+module load Python/3.11.3-GCCcore-12.3.0
+python --version
+srun --overcommit -n1 python -u /home/user/m/j/mjoiret/CeCItraining/count-signal.py || scontrol requeue ${SLURM_JOB_ID}
+***********************************************************************************************************************
+The count-signal.py is the same as before. The bash script has set a checkpoint which will interrupt the srun program 
+30 seconds before wall time. The same job id will be requeued for a pending status, after interruption and the program will resume
+where it stopped.
+***********************************************************************************************************************
+In Bash scripts, &, #, and || are used for different purposes. Here's a breakdown of each:
+
+1. & (Ampersand)
+Purpose: To run a command in the background.
+
+Usage: When you add & at the end of a command, it tells the shell to execute the command in the background, allowing the script or terminal to continue running without waiting for the command to finish.
+
+Example:
+
+bash
+
+sleep 10 &  # Runs 'sleep 10' in the background
+echo "This prints immediately without waiting for 'sleep 10' to finish."
+2. # (Hash)
+Purpose: To add a comment.
+
+Usage: Anything following # on a line is treated as a comment, meaning it will be ignored by the shell when executing the script. It is used to leave notes or explanations for other people (or yourself) to understand the script better.
+
+Example:
+
+bash
+
+# This is a comment explaining what the script does
+echo "Hello, World!"  # This prints 'Hello, World!'
+3. || (Logical OR)
+Purpose: To execute the next command only if the previous command fails.
+
+Usage: If the command before || fails (returns a non-zero exit status), the command after || will be executed. It's a way of handling errors or fallback logic.
+
+Example:
+
+bash
+Copy code
+mkdir my_directory || echo "Failed to create directory"
+In this case, if the mkdir command fails (e.g., the directory already exists or there are permission issues), the script will print the message "Failed to create directory."
+
+Summary:
+&: Runs a command in the background.
+#: Adds a comment.
+||: Executes the next command only if the previous one fails.
+------------------------------------------------------------------------------------------------
+[mjoiret@lm4-f001 CeCItraining]$ cat submit-signal3.sh
+#!/bin/bash
+
+#SBATCH --job-name=test
+#SBATCH --output=test.out
+#SBATCH --open-mode=append
+#SBATCH --time=0-00:01:20
+#SBATCH --signal=B:USR1@60
+#SBATCH --ntasks=1
+
+timeout(){
+  echo "cancel job"
+  scancel -s SIGINT $SLURM_JOB_ID
+  sleep 1
+  scontrol requeue $SLURM_JOB_ID
+}
+
+trap 'timeout' USR1
+
+date
+echo "restarted ${SLURM_RESTART_COUNT-0}"
+#module load releases/2023a
+module load Python
+python --version
+srun --overcommit -n1 python -u count-signal.py &           #|| scontrol requeue ${SLURM_JOB_ID}
+wait
+**************************************************************************************************
+DMTCP : what is DMTCP ? Making restartable a software you don't know anything about...
+DMTCP ?
+DMTCP (Distributed MultiThreaded CheckPointing) is an open-source software tool used for transparent checkpointing and process migration. 
+It allows you to save (checkpoint) the state of a running application or group of processes, and later restore them (restart) from the 
+same state, either on the same system or a different one.
+
+Key Features of DMTCP:
+Transparent Checkpointing:
+
+DMTCP can checkpoint any single-threaded or multi-threaded application without requiring modification to the application code or the 
+operating system. It works transparently at the user level.
+Distributed Applications:
+
+It supports checkpointing distributed applications, meaning it can checkpoint applications that are spread across multiple machines, 
+such as MPI-based programs or applications using network sockets.
+No Need for Root Access:
+
+DMTCP operates in user space and does not require superuser (root) privileges to function. This makes it easy to deploy and use on 
+shared computing clusters.
+Process Migration:
+
+In addition to checkpointing, DMTCP can migrate processes to different machines. This is useful for load balancing, handling hardware 
+failures, or moving processes to systems with better performance or resources.
+Checkpointing of Complex Applications:
+
+DMTCP is designed to handle complex applications that might use shared memory, threads, dynamic libraries, and network connections.
+Use Cases of DMTCP:
+Long-running Jobs:
+
+DMTCP is particularly useful in high-performance computing (HPC) environments for checkpointing long-running jobs that are prone 
+to interruptions, such as due to hardware failures or job time limits.
+Fault Tolerance:
+
+It can be used to introduce fault tolerance by periodically saving checkpoints of applications. If a failure occurs, you can restart 
+the application from the last checkpoint rather than starting over.
+Process Migration:
+
+DMTCP can be used to migrate processes between machines. For example, in load balancing, you can checkpoint a process on one machine 
+and restore it on a machine with more resources.
+Interactive Sessions:
+
+For interactive applications, DMTCP allows you to checkpoint and resume sessions. For instance, if you have a long-running 
+interactive session (like a simulation or analysis), you can save it and continue later.
+How DMTCP Works:
+Checkpointing:
+
+When DMTCP takes a checkpoint, it saves the entire state of an application, including the memory contents, open files, and network 
+connections. It can do this for both single-process and distributed applications.
+Restarting:
+
+After a checkpoint has been saved, you can restore the application from that point. The restart does not have to be on the 
+same machine; it can be on any compatible system.
+Coordination Across Nodes:
+
+For distributed applications, DMTCP coordinates checkpointing across multiple nodes. This ensures that the entire distributed 
+application can be restarted correctly, even if it was running on multiple machines.
+Example Workflow with DMTCP:
+Start a process under DMTCP control:
+
+bash
+
+dmtcp_launch ./my_program
+Create a checkpoint of the running process:
+
+bash
+
+dmtcp_command --checkpoint
+Restart the program from the checkpoint:
+
+bash
+
+dmtcp_restart ckpt_my_program*.dmtcp
+Supported Environments:
+Parallel Computing: Supports checkpointing MPI programs and other distributed applications.
+Threads: Supports both single-threaded and multi-threaded applications.
+Networked Applications: Can checkpoint applications using network sockets, such as client-server applications.
+Common Applications of DMTCP:
+MPI applications: In distributed computing environments (e.g., HPC clusters), DMTCP can checkpoint large-scale 
+scientific simulations running with MPI.
+Interactive shell sessions: Long interactive sessions (such as on a supercomputer) can be checkpointed and restored later.
+Scientific workflows: Long-running data analysis or simulations in bioinformatics, physics, or chemistry can benefit from 
+periodic checkpointing to avoid losing progress due to system crashes or time limits.
+Summary:
+DMTCP is a versatile tool for checkpointing and process migration, making it essential in environments like HPC clusters where 
+long-running jobs, distributed applications, and fault tolerance are critical. It is widely used in research and computing-intensive 
+domains to ensure that work is not lost due to system failures or interruptions.
+
+

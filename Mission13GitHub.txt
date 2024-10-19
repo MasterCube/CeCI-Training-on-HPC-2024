@@ -1,0 +1,397 @@
+ Mission goal                                                                                                                                        |    /| |
+|\|  | /|   
+Mission 12:
+ Mission goal                                                                                        |.
+    \_ | ============                                                                                        |.
+       |                                                                                                     |.
+       | Time to go public and open source and to put the source code of the Factory online.                 |.
+       |                                                                                                     |.
+       | So first                                                                                            |.
+       | 1) create an account on github.com:                                                                 |.
+       | https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home |.
+       |                                                                                                     |.
+       | 2) Go on the following web page:                                                                    |.
+       | https://github.com/oliviermattelaer/gitlectures                                                     |.
+       | and click on "fork" (button on top right of the page)                                               |.
+       |                                                                                                     |.
+       | 3) click on the green button and copy the link of your repo                                         |.
+       | and then link it locally with a command like git clone THE_LINK_THAT_YOU_COPY_HERE                  |.
+       |                                                                                                     |.
+       | Useful commands                                                                                     |.
+       | ===============                                                                                     |.
+       |                                                                                                     |.
+       | git clone PATH                                                                                      |.
+       | ~~ create a local copy of a remote repository       
+
+	NOT THIS ONE: git clone https://github.com/oliviermattelaer/gitlectures.git XXXX
+	git clone https://github.com/MasterCube/gitlectures.git
+
+Mission 13:
+============                                                                                                                                        |\  | |/|
+| `---' |                                                                                                                                                       | `---' |
+|       |   Next step is to be able to communicate with the github repo via secure connection (ssh).                                                            |       |
+|       |   This step needs to be done only once for all your github repo.                                                                                      |       |
+|       |                                                                                                                                                       |       |
+|       |   We advise to use a dedicated ssh key for github (and a unique one for each server/machine used).                                                    |       |
+|       |   On the otherhand, we advised that you do not use a passphrase to avoid to type your password everytime.                                             |       |
+|       |   (If you have an agent running, you can obviously put a passphrase).                                                                                 |       |
+|       |                                                                                                                                                       |       |
+|       |   Step 1: Generate a (new and local) ssh key.                                                                                                         |       |
+|       |   ===========================================                                                                                                         |       |
+|       |                                                                                                                                                       |       |
+|       |    - Option 1: automatic setup:                                                                                                                       |       |
+|       |    ============================                                                                                                                       |       |
+|       |   We have create a script for you to setup the code correctly.                                                                                        |       |
+|       |   Run                                                                                                                                                 |       |
+|       |   $> ./setup_ssh                                                                                                                                      |       |
+|       |   We will first ask you if you want to keep this ssh key only for the game or if you want to setup that key for the cluster that you are currently    |       |
+|       |   using                                                                                                                                               |       |
+|       |                                                                                                                                                       |       |
+|       |    - Option 2: manual setup:                                                                                                                          |       |
+|       |    =========================                                                                                                                          |       |
+|       |    1) create a .ssh directory in your home by running $> mkdir ~/.ssh                                                                                 |       |
+|       |    2) create a new ssh key                                                                                                                            |       |
+|       |     $> ssh-keygen -t rsa -f ~/.ssh/id_rsa.git                                                                                                         |       |
+|       |   and enter (twice) the passphrase of your choice (just type enter twice to not have any passphrase).                                                 |       |
+|       |    3) check the real path of the ~ directory [this step is only needed within gitshell]                                                               |       |
+|       |     echo ~                                                                                                                                            |       |
+|       |    4) create the file ~/.ssh/config                                                                                                                   |       |
+|       |     and write within the file the following lines (but replace ~ by the real path given in step 3):                                                   |       |
+|       |     Host github.com                                                                                                                                   |       |
+|       |       Hostname github.com                                                                                                                             |       |
+|       |       User git                                                                                                                                        |       |
+|       |       IdentityFile ~/.ssh/id_rsa.git                                                                                                                  |       |
+|       |                                                                                                                                                       |       |
+|       |   Step 2: tell github about the key you want to use.                                                                                                  |       |
+|       |   =================================================                                                                                                   |       |
+|       |   run                                                                                                                                                 |       |
+|       |   cat ~/.ssh/id_rsa.git.pub                                                                                                                           |       |
+|       |   and copy the output in your clipboard, then go to https://github.com/settings/keys                                                                  |       |
+|       |   click on "New ssh key" put as title the name of the cluster                                                                                         |       |
+|       |   and paste the content of your clipboard.                                                                                                            |       |
+|       |                                                                                                                                                       |       |
+|       |                                                                                                                                                       |       |
+|       |   Step 3: check the connection                                                                                                                        |       |
+|       |   ============================                                                                                                                        |       |
+|       |   run gsh check to test the connection       
+
+
+[mission 13]~/Factory/gitlectures (master) $ ./setup_ssh
+Do you want to setup the ssh authentification method to work outside of the game (y/n)?y
+Generating public/private rsa key pair.
+Your identification has been saved in /home/users/m/j/mjoiret/git.1/World/.ssh/id_rsa.git.
+Your public key has been saved in /home/users/m/j/mjoiret/git.1/World/.ssh/id_rsa.git.pub.
+The key fingerprint is:
+SHA256:QIC1T9SRnhIbQ93QzgLjRZj1ODfvj4silShgtiu5Ibo mjoiret@lm4-f001
+The key's randomart image is:
++---[RSA 3072]----+
+|   ooo+B=*       |
+|  .  +O =oo      |
+|    ..oXo++      |
+|  +  o+.+ooo     |
+| o o  .oSo  .    |
+|  . . . o  .     |
+|o. . . .    .    |
+|=..   . .  . o   |
+|E+     . .. o..  |
++----[SHA256]-----+
+
+[mission 13]~/Factory/gitlectures (master) $ cat ~/.ssh/id_rsa.git.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDVVmj+eLA52YiA8mlT74/z31ZOVEDhrWiYkzPxDsg1E4uNKVaavzbU2Q3LQ1rAZMS1e8BenD8ZXiHDD3lelC4faEqXW8nuI9K9UyQcTXYfydW3281EMQ8JjxRv+Mrj1CuNEvX7gIK9dmDoJkDA6iy5luHL+sAcvrydY4FndR9LJfk33UMv/UEaiHmkHKYczpL7FF3SmXdzQNnUHP6sbZc4NyjFM2EOCC6Q9qMc1ju3kJcmT4xBZGsl74pO6aT7Hmeaz+o4tGlHGVirJDFjEvVP0obmE/kiYUQLlQPNxyMFIlwQHMllTyA10fFPOR/AqDHUB2Z7SfKKVhXkaD2kQucjaaWPlAH9Zumsa38q7DtUgyfuBxGvcSV9OdvjDfGinFbBEwSo8f41XU+O+W5+hL8RFQ0c1TmwI3LXd+uBfzH9li26hs1hBdCbBVkjKOiGtQGG9DR/+6cKiYN16hUxTS6LKlGan8i0wMh78cNrcijs6iIw93RVcl6soCldfGtgHYk= mjoiret@lm4-f001
+
+Hi MasterCube! You've successfully authenticated, but GitHub does not provide shell access.
+well done
+
+Mission 14:
+ |   |                                                                                               |   |
+ | / |  Mission goal                                                                                 | \ |
+ | / |  ============                                                                                 | \ |
+ | / |                                                                                               | \ |
+ | / |  Now that you have a local copy of your repository and that your ssh key is correctly setup.  | \ |
+ | / |  It is time to push some modification on your github repo.                                    | \ |
+ | / |                                                                                               | \ |
+ | / |  Edit the file product.list                                                                   | \ |
+ | / |  and change the price of the philosopher's stone to zero. (Big promotion day)                 | \ |
+ | / |  Then create a commit and sync your github repo to have that change in.                       | \ |
+ | / |                                                                                               | \ |
+ | / |  Usefull command                                                                              | \ |
+ | / |  ===============                                                                              | \ |
+ | / |  git push                                                                                     | \ |
+ | / |      (try to) add your new additional commit to the remote repository                         | \ |
+ | / |                                                                                               | \ |
+ | / |  git remote -v                                                                                | \ |
+ | / |      get access to the url use for the push command 
+
+
+Congratulations, mission 13 has been successfully completed!
+
+Congratulations for adding your ssh key
+Your repo is still setup to use htpps protocol
+to simplify our setup, the game has change your fork to use ssh protocol for the remote repository
+MasterCube
+new adress is now git@github.com:MasterCube/gitlectures.git
+in future you can copy/paste directly the "ssh" adress of your fork
+clean setup with check_true
+
+[master ee190c4] price changed
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+[mission 14]~/Factory/gitlectures (master) $ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 256 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 310 bytes | 310.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:MasterCube/gitlectures.git
+   4037a59..ee190c4  master -> master
+[mission 14]~/Factory/gitlectures (master) $ git remote -v
+origin  git@github.com:MasterCube/gitlectures.git (fetch)
+origin  git@github.com:MasterCube/gitlectures.git (push)
+
+Mission 15
+   |   | Mission goal                                                                                                                                           |.
+    \_ | ============                                                                                                                                           |.
+       |                                                                                                                                                        |.
+       | Your promotion on the philosopher's stone had a huge impact. And the product is now sold out.                                                          |.
+       | It's time to add that product in the file SOLDOUT_waiting_for_stock.list                                                                               |.
+       | Then publish it within your github repo.                                                                                                               |.
+       |                                                                                                                                                        |.
+       | This is the same as previous level BUT something "new" will happen since a collaborator (in this case an automatic script) has submitted a new commit  |.
+       | before you.                                                                                                                                            |.
+       |                                                                                                                                                        |.
+       | Usefull command                                                                                                                                        |.
+       | ===============                                                                                                                                        |.
+       | git pull                                                                                                                                               |.
+       |     try to update your current repo and update your HEAD to the one of the                                                                             |.
+       |     remote repository                                                                                                                                  |.
+       |                                                                                                                                                        |.
+       | IF you have local commit this will break and you will need to use one of the following option:                                                         |.
+       |                                                                                                                                                        |.
+       | git pull --rebase                                                                                                                                      |.
+       |     re-apply your local commit one by one on top of the commit on the remote repository. (give a linear history)                                       |.
+       |                                                                                                                                                        |.
+       | git pull --merge                                                                                                                                       |.
+       |     Do a standard merge operation. 
+
+[mission 15]~/Factory/gitlectures (master) $ git fetch
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 3 (delta 2), reused 3 (delta 2), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 314 bytes | 10.00 KiB/s, done.
+From github.com:MasterCube/gitlectures
+   3c1aae9..297c785  master     -> origin/master
+
+[mission 15]~/Factory/gitlectures (master) $ git pull
+Updating 3c1aae9..297c785
+Fast-forward
+ status | 1 +
+ 1 file changed, 1 insertion(+)
+[mission 15]~/Factory/gitlectures (master) $ ls -h
+product.list  README.md  setup_ssh  SOLDOUT_waiting_for_stock.list  status
+[mission 15]~/Factory/gitlectures (master) $ cat product.list
+# product price
+arrow 1
+bow 10
+philosopher's_stone 0
+[mission 15]~/Factory/gitlectures (master) $ cat SOLDOUT_waiting_for_stock.list
+# name date
+Love potion 7/12/1215
+Excalibur 30/05/542
+Philosopher's stone 16/10/2024
+[mission 15]~/Factory/gitlectures (master) $ git pull --rebase
+Already up to date.
+[mission 15]~/Factory/gitlectures (master) $ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+[mission 15]~/Factory/gitlectures (master) $ git push
+Everything up-to-date
+[mission 15]~/Factory/gitlectures (master) $ gsh check
+Philosopher's stone 16/10/2024
+price_line is at philosopher's_stone 0
+price is set at 0
+well done
+
+Congratulations, mission 15 has been successfully completed!
+
+[mission 16]~/Factory/gitlectures (master) $ gsh goal 16
+
+  .--------------------------------------------------------------------------------------------------------------------------------------------------------------------.
+ /  .-.                                                                                                                                                            .-.  \
+|  /   \                                                                                                                                                          /   \  |
+| |\_.  |   Mission goal                                                                                                                                         |    /| |
+|\|  | /|   ============                                                                                                                                         |\  | |/|
+| `---' |                                                                                                                                                        | `---' |
+|       |   github is not only a place to share a common git repository                                                                                          |       |
+|       |   but also a place where you can collaborate.                                                                                                          |       |
+|       |   The typical place for discussion on github is via issue and Pull Request.                                                                            |       |
+|       |   Pull Request allow you to discuss a proposed changed of code modification.                                                                           |       |
+|       |                                                                                                                                                        |       |
+|       |   Your current mission is to propose to port back your change to the original github repo (the one that you clone from:                                |       |
+|       |   https://github.com/oliviermattelaer/gitlectures).                                                                                                    |       |
+|       |                                                                                                                                                        |       |
+|       |   For that go to your github repo.                                                                                                                     |       |
+|       |   then click on pull request and then on new pull request.                                                                                             |       |
+|       |                                                                                                                                                        |       |
+|       |   You will be able to choose which of your branch of your repo (in this case the master branch) you want to merge with which branch of your/another    |       |
+|       |   repository. (you can target the master branch).                                                                                                      |       |
+|       |                                                                                                                                                        |       |
+|       |--------------------------------------------------------------------------------------------------------------------------------------------------------|       |
+\       |                                                                                                                                                        |       /
+ \     /                                                                                                                                                          \     /
+  `---'                                                                                                                                                            `---'
+[mission 16]~/Factory/gitlectures (master) $ vim SOLDOUT_waiting_for_stock.list
+[mission 16]~/Factory/gitlectures (master) $ git add SOLDOUT_waiting_for_stock.list
+[mission 16]~/Factory/gitlectures (master) $ git commit -m "excalibur item deleted from soldout file" SOLDOUT_waiting_for_stock.list
+[master 8599e70] excalibur item deleted from soldout file
+ 1 file changed, 1 deletion(-)
+[mission 16]~/Factory/gitlectures (master) $ git push
+Warning: Permanently added the ECDSA host key for IP address '140.82.114.3' to the list of known hosts.
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 256 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 338 bytes | 338.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:MasterCube/gitlectures.git
+   297c785..8599e70  master -> master
+[mission 16]~/Factory/gitlectures (master) $ gsh check
+well done
+
+Congratulations, mission 16 has been successfully completed!
+
+
+   \  :  /       \  :  /       \  :  /       \  :  /       \  :  /
+`. __/ \__ .' `. __/ \__ .' `. __/ \__ .' `. __/ \__ .' `. __/ \__ .'
+_ _\     /_ _ _ _\     /_ _ _ _\     /_ _ _ _\     /_ _ _ _\     /_ _
+   /_   _\       /_   _\       /_   _\       /_   _\       /_   _\
+ .'  \ /  `.   .'  \ /  `.   .'  \ /  `.   .'  \ /  `.   .'  \ /  `.
+   /  |  \       /  :  \       /  :  \       /  :  \       /  |  \
+      |                                                       |
+   \  |  /                                                 \  |  /
+`. __/ \__ .'                                           `. __/ \__ .'
+_ _\     /_ _                                           _ _\     /_ _
+   /_   _\                                                 /_   _\
+ .'  \ /  `.     CONGRATULATIONS!                        .'  \ /  `.
+   /  |  \                                                 /  |  \
+      |                                                       |
+   \  |  /       You have finished all the missions.       \  |  /
+`. __/ \__ .'                                           `. __/ \__ .'
+_ _\     /_ _                                           _ _\     /_ _
+   /_   _\                                                 /_   _\
+ .'  \ /  `.                                             .'  \ /  `.
+   /  |  \                                                 /  |  \
+      |                                                       |
+   \  |  /       \  :  /       \  :  /       \  :  /       \  |  /
+`. __/ \__ .' `. __/ \__ .' `. __/ \__ .' `. __/ \__ .' `. __/ \__ .'
+_ _\     /_ _ _ _\     /_ _ _ _\     /_ _ _ _\     /_ _ _ _\     /_ _
+   /_   _\       /_   _\       /_   _\       /_   _\       /_   _\
+ .'  \ /  `.   .'  \ /  `.   .'  \ /  `.   .'  \ /  `.   .'  \ /  `.
+   /  :  \       /  :  \       /  :  \       /  :  \       /  :  \
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMER>ssh-keygen -t ed25519 -C "joiret.bioinformatics@gmail.com"
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (C:\Users\marcjoiret/.ssh/id_ed25519): C:\Users\marcjoiret/.ssh/id_ed25519
+Created directory 'C:\\Users\\marcjoiret/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in C:\Users\marcjoiret/.ssh/id_ed25519
+Your public key has been saved in C:\Users\marcjoiret/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:VFa7iuQcEq6Az/fBsnclBUEODa9LCiCj8nVGAETjwaU joiret.bioinformatics@gmail.com
+The key's randomart image is:
++--[ED25519 256]--+
+| +*oo o+o.o..    |
+| ..+ . +oo   .   |
+|+ E   o +.  .    |
+|o+   o +  .  .   |
+|+ o . B S.  .    |
+|.+ + B *.o..     |
+|  + = + +o.      |
+|   . +...        |
+|    ....         |
++----[SHA256]-----+
+
+
+SHA256:VFa7iuQcEq6Az/fBsnclBUEODa9LCiCj8nVGAETjwaU joiret.bioinformatics@gmail.com
+
+C:\Users\marcjoiret\.ssh>type id_ed25519.pub
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2B67T5UOMCGR3v5BviZKXgv3CainqEGekNkofXdCpp joiret.bioinformatics@gmail.com
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMER>cd ..
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING>cd RIBOSOMERinPython
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython>git init
+Initialized empty Git repository in C:/Users/marcjoiret/Dropbox/PC/Desktop/ONGOING/RIBOSOMERinPython/.git/
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython>git clone https://github.com/MasterCube/Ribosomer-in-python.git
+Cloning into 'Ribosomer-in-python'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (3/3), done.
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython>dir
+ Volume in drive C is OS
+ Volume Serial Number is 382D-2A5A
+
+ Directory of C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython
+
+17/10/2024  22:16    <DIR>          .
+17/10/2024  22:16    <DIR>          ..
+17/10/2024  22:16    <DIR>          Ribosomer-in-python
+               0 File(s)              0 bytes
+               3 Dir(s)  29.878.927.360 bytes free
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython>cd Ribosomer-in-python
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython\Ribosomer-in-python>dir
+ Volume in drive C is OS
+ Volume Serial Number is 382D-2A5A
+
+ Directory of C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython\Ribosomer-in-python
+
+17/10/2024  22:16    <DIR>          .
+17/10/2024  22:16    <DIR>          ..
+17/10/2024  22:16                57 readme
+               1 File(s)             57 bytes
+               2 Dir(s)  29.878.808.576 bytes free
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython\Ribosomer-in-python>git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        myData/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython\Ribosomer-in-python>git add myData/*
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython\Ribosomer-in-python>git commit -m "sent myData directory in remote repo" myData/*
+[main 8c976a6] sent myData directory in remote repo
+ 4 files changed, 753 insertions(+)
+ create mode 100644 myData/CDSfasta01.txt
+ create mode 100644 myData/Yeasts64HypoExpParams.tsv
+ create mode 100644 myData/dataJSONyeast.json
+ create mode 100644 myData/tunnelElectrostaticsAF.json
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython\Ribosomer-in-python>git push
+info: please complete authentication in your browser...
+Enumerating objects: 8, done.
+Counting objects: 100% (8/8), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (7/7), 18.41 KiB | 2.04 MiB/s, done.
+Total 7 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/MasterCube/Ribosomer-in-python.git
+   ff27bc3..8c976a6  main -> main
+
+C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython\Ribosomer-in-python>

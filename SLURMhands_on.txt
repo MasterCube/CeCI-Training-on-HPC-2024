@@ -1,0 +1,564 @@
+SLURM - session LLN - 17 oct 2024
+[mission 1] $ gsh goal 1
+
+     __________________________________________________________________________________________________________________________________________________
+()==(                                                                                                                                                 (@==()
+     '_________________________________________________________________________________________________________________________________________________'|
+       |                                                                                                                                                |
+       | Mission goal                                                                                                                                   |
+       | ============                                                                                                                                   |
+       |                                                                                                                                                |
+       | Get the list of the worker gnomes in the stable. Count how many there are.                                                                     |
+       |                                                                                                                                                |
+       | Useful commands                                                                                                                                |
+       | ===============                                                                                                                                |
+       |                                                                                                                                                |
+       | sinfo -N                                                                                                                                       |
+       |   lists the workers                                                                                                                            |
+       |                                                                                                                                                |
+       | wc -l                                                                                                                                          |
+       |    counts the number of lines from stdin                                                                                                       |
+       |                                                                                                                                                |
+       | Remarks                                                                                                                                        |
+       | -------                                                                                                                                        |
+       |                                                                                                                                                |
+       | You will need to combine both commands to get the correct answer.                                                                              |
+       |                                                                                                                                                |
+       | Beware that the first line of the output is the header and must not be counted. You can look in the sinfo man page to find out which argument  |
+       | supresses the head line. Otherwise, you can simply subtract one from the number you get.                                                       |
+     __)________________________________________________________________________________________________________________________________________________|
+()==(                                                                                                                                                  (@==()
+     '-------------------------------------------------------------------------------------------------------------------------------------------------'
+
+[mission 2] $ gsh goal 2
+
+      __________________________________________________________________________________________________________________________________________________________
+    / \                                                                                                                                                         \.
+   |   | Mission goal                                                                                                                                           |.
+    \_ | ============                                                                                                                                           |.
+       |                                                                                                                                                        |.
+       | Learn more about the workers. They have some capabilities for mental tasks, described in terms of compute-capable neurons, called CPUs, and            |.
+       | memory-related neurons, called MBs. Some have specific skills, called features. They are sometimes too sick to work, and of course some of them are    |.
+       | more lazy than others and prefer not to work if others can do the job and just sit idle. Others are worker to the best of their abilities. They are    |.
+       | said to be allocated. Most of the time, though, workers are in a mixed state, meaning that they are working but still have resources available for     |.
+       | other jobs.                                                                                                                                            |.
+       |                                                                                                                                                        |.
+       | The goals of the mission is to have a look at the amount of CPUs and memory each worker has, and to count the number of workers that sit idle.         |.
+       |                                                                                                                                                        |.
+       | Useful commands                                                                                                                                        |.
+       | ===============                                                                                                                                        |.
+       |                                                                                                                                                        |.
+       | sinfo -Nl                                                                                                                                              |.
+       |   lists the workers and their attributes. The column titles are                                                                                        |.
+       |   mostly self-explanatory, except maybe for                                                                                                            |.
+       |                                                                                                                                                        |.
+       |   - S:C:T: how CPUs are organised in the worker's head                                                                                                 |.
+       |   - WEIGHT: a measure of how lazy a worker is                                                                                                          |.
+       |   - AVAIL_FE: list of features of the worker (his skills)                                                                                              |.
+       |   - REASON: a reason for which a worker is sick                                                                                                        |.
+       |   You can ignore them for now, we'll come back at those                                                                                                |.
+       |   concepts later.                                                                                                                                      |.
+       |                                                                                                                                                        |.
+       | grep -co word                                                                                                                                          |.
+       |   counts the number of occurences of `word` in stdin                                                                                                   |.
+       |                                                                                                                                                        |.
+       | Remarks                                                                                                                                                |.
+       | -------                                                                                                                                                |.
+       |                                                                                                                                                        |.
+       | You will need to combine again the above commands to answer the question. Please beware that between the moment you get the number and the moment you  |.
+       | answer the question, the situation can change. Be sure to run `gsh check` with no delay once you have the answer.                                      |.
+       |   _____________________________________________________________________________________________________________________________________________________|___
+       |  /                                                                                                                                                        /.
+       \_/________________________________________________________________________________________________________________________________________________________/.
+
+[mission 3] $ sinfo > result.txt
+[mission 3] $ grep -o 'alloc' result.txt | wc -l
+1
+
+  _________________________________________________________________________________________________________________________________________________________________
+ /  __                                                                                                                                                         __  \
+|  /  \   Mission goal                                                                                                                                        /  \  |
+|\ \   |  ============                                                                                                                                       |   / /|
+| \___/|                                                                                                                                                     |\___/ |
+|      |  The Slurm commands all start with the letter s. To better learn how to use them, it is useful to read their manual page (or man page for short).   |      |
+|      |  Although the man pages are available on the web it is safer to refer to the manpage that are installed locally to make sure you are reading the    |      |
+|      |  correct version with respect to the version of Slurm that you are interacting with.                                                                |      |
+|      |                                                                                                                                                     |      |
+|      |  The goal of the mission is to consult the manpage of sinfo and wander through it. Then, at your convenience, quit the manpage.                     |      |
+|      |                                                                                                                                                     |      |
+|      |  Useful commands                                                                                                                                    |      |
+|      |  ===============                                                                                                                                    |      |
+|      |                                                                                                                                                     |      |
+|      |  man sinfo                                                                                                                                          |      |
+|      |                                                                                                                                                     |      |
+|      |  Remarks                                                                                                                                            |      |
+|      |  -------                                                                                                                                            |      |
+|      |                                                                                                                                                     |      |
+|      |  You can look for a word or a pattern in the man page with /pattern like in Vim. You can press h for help navigating the manpage, and q to quit.    |      |
+|      |                                                                                                                                                     |      |
+ \     |_____________________________________________________________________________________________________________________________________________________|     /
+  \___/                                                                                                                                                       \___/
+[mission 4] $ gsh goal 4
+
+ /&\/\_..-------------------------------------------------------------------------------------------------------------------------------------------------------------._/\/&\
+(     _||                                                                                                                                                            ||_     )
+ \_/\/ ||   Mission goal                                                                                                                                             || \/\_/
+       ||   ============                                                                                                                                             ||
+       ||                                                                                                                                                            ||
+       ||   The workers are organised into partitions, sets of workers that share the same skills or are obey the same policies. For instance, there is a maximum    ||
+       ||   time that a job is allowed to take before completion.                                                                                                    ||
+       ||                                                                                                                                                            ||
+       ||   The goal of the mission is to discover the default partition and its time limit. The default partition is the set of workers to which a job will be      ||
+       ||   submitted if the partition is not specified explicitly. It is marked with an asterisk.                                                                   ||
+       ||                                                                                                                                                            ||
+       ||                                                                                                                                                            ||
+       ||   Useful commands                                                                                                                                          ||
+       ||   ===============                                                                                                                                          ||
+       ||                                                                                                                                                            ||
+       ||   sinfo -s                                                                                                                                                 ||
+       ||     lists the partitions defined in the system.                                                                                                            ||
+       ||     The (A/I/O/T) column stands for number of workers in the                                                                                               ||
+       ||     states Allocated, Idle, and Other and the T is for Total.                                                                                              ||
+       ||                                                                                                                                                            ||
+       ||   Remarks                                                                                                                                                  ||
+       ||   -------                                                                                                                                                  ||
+       ||                                                                                                                                                            ||
+       ||   Slurm has a specific syntax for expressing time:                                                                                                         ||
+       ||    days-hours:minutes:seconds.                                                                                                                             ||
+       ||                                                                                                                                                            ||
+       ||   Also, the workers like to call themselves 'nodes'.                                                                                                       ||
+       ||                                                                                                                                                            ||
+ /&\/\_|--------------------------------------------------------------------------------------------------------------------------------------------------------------|_/\/&\
+(     _|                                                                                                                                                              |_     )
+ \_/\/ `--------------------------------------------------------------------------------------------------------------------------------------------------------------' \/\_/
+
+[mission 4] $ sinfo -s
+PARTITION AVAIL  TIMELIMIT   NODES(A/I/O/T) NODELIST
+batch*       up 2-00:00:00        40/0/0/40 lm4-w[001-040]
+
+  _____________________________________________________________________________________________________________________________________________________________________
+ /  __                                                                                                                                                             __  \
+|  /  \   Mission goal                                                                                                                                            /  \  |
+|\ \   |  ============                                                                                                                                           |   / /|
+| \___/|                                                                                                                                                         |\___/ |
+|      |  Find out about the list of jobs currently managed by Slurm. Jobs are identified by a numerical job ID. Some of them are currently being worked on by   |      |
+|      |  the workers, they are in the R (Running) state. The others are in the PD (PenDing) state. Jobs can be given names to better recognize them. The jobs   |      |
+|      |  that will start next are the one that have "(Resources)" as listed "reason".                                                                           |      |
+|      |                                                                                                                                                         |      |
+|      |  What is the job ID of the next job to start in the default partition?                                                                                  |      |
+|      |                                                                                                                                                         |      |
+|      |  Useful commands                                                                                                                                        |      |
+|      |  ===============                                                                                                                                        |      |
+|      |                                                                                                                                                         |      |
+|      |  squeue                                                                                                                                                 |      |
+|      |    lists the jobs in the system. Most column titles are self-explanatory. The last one will show which worker(s) are buzy with that job, or, in         |      |
+|      |    parenthese, the reason why no worker is taking care of it.                                                                                           |      |
+|      |                                                                                                                                                         |      |
+|      |  squeue -t PD                                                                                                                                           |      |
+|      |    shows only the jobs that are pending                                                                                                                 |      |
+|      |                                                                                                                                                         |      |
+|      |  squeue -p partition                                                                                                                                    |      |
+|      |    shows only jobs submitted to that partition                                                                                                          |      |
+|      |                                                                                                                                                         |      |
+|      |  Remarks                                                                                                                                                |      |
+|      |  -------                                                                                                                                                |      |
+|      |                                                                                                                                                         |      |
+|      |  You will need to combine both arguments to get the correct answer.                                                                                     |      |
+|      |                                                                                                                                                         |      |
+|      |  Beware that as the environment is changing with jobs completing and others being submitted, you need to run the gsh check command with no delay once   |      |
+|      |  you have the answer to the question.                                                                                                                   |      |
+|      |                                                                                                                                                         |      |
+ \     |_________________________________________________________________________________________________________________________________________________________|     /
+  \___/                                                                                                                                                           \___/
+
+ squeue -t PD -p batch | grep 'Resources'
+
+[mission 6] $ gsh goal 6
+
+ __^__                                                                                                                                                         __^__
+( ___ )-------------------------------------------------------------------------------------------------------------------------------------------------------( ___ )
+ |   |                                                                                                                                                         |   |
+ | / |  Mission goal                                                                                                                                           | \ |
+ | / |  ============                                                                                                                                           | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |  To get a worker to work for you, you need to write a work order, also called a submission script. The submission script is a shell script (often a     | \ |
+ | / |  Bash script) that contains information about the work to do.                                                                                           | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |  It must start with a shebang, that is a line such as                                                                                                   | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |     #!/bin/bash                                                                                                                                         | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |  that indicates the path to the interpreter to use for the script.                                                                                      | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |  To complete the mission, create a directory named testjob with a submission script in it named submit.sh The submission script should only contain a   | \ |
+ | / |  shebang.                                                                                                                                               | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |  Useful commands                                                                                                                                        | \ |
+ | / |  ===============                                                                                                                                        | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |  vim, nano                                                                                                                                              | \ |
+ | / |      Both Vim and Nano are text editor that allow creating files in a terminal with a pure text interface. Learning about them is out of the scope of   | \ |
+ | / |      this tutorial.                                                                                                                                     | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |  mkdir                                                                                                                                                  | \ |
+ | / |      create a directory                                                                                                                                 | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |  Remarks                                                                                                                                                | \ |
+ | / |  -------                                                                                                                                                | \ |
+ | / |                                                                                                                                                         | \ |
+ | / |  Make sure the directory is properly created and the file is named submit.sh and only contain the shebang line.                                         | \ |
+ |___|                                                                                                                                                         |___|
+(_____)-------------------------------------------------------------------------------------------------------------------------------------------------------(_____)
+[mission 7] $ gsh goal 7
+
+     __________________________________________________________________________________________________________________________________________________________
+()==(                                                                                                                                                         (@==()
+     '_________________________________________________________________________________________________________________________________________________________'|
+       |                                                                                                                                                        |
+       | Mission goal                                                                                                                                           |
+       | ============                                                                                                                                           |
+       |                                                                                                                                                        |
+       | Although an empty submission script is technically a valid submission script is most cases, it is not useful as is. There are two main sections that   |
+       | are needed in the submission script.                                                                                                                   |
+       |                                                                                                                                                        |
+       | The first one is the description of the resources that your job will require. The most important resources to specify are                              |
+       |                                                                                                                                                        |
+       | - the needed number of CPUs ;                                                                                                                          |
+       | - the required amount of memory.                                                                                                                       |
+       |                                                                                                                                                        |
+       | You also need to specify how long the job will need those resources. Remember that there is a limit on the maximum duration of a job!                  |
+       |                                                                                                                                                        |
+       | To specify a resource, you must include lines in the submission scripts, that start with #SBATCH and then the parameter name, followed by an optional  |
+       | equal sign and its value.                                                                                                                              |
+       |                                                                                                                                                        |
+       | Exemple:                                                                                                                                               |
+       |                                                                                                                                                        |
+       | #SBATCH --time=10:00                                                                                                                                   |
+       |                                                                                                                                                        |
+       | There are unfortunately no magic solution to find out the correct amount of resources and duration for a given job as it will depend on many factors.  |
+       | Only experience will tell you what amount of resource to request for a given job.                                                                      |
+       |                                                                                                                                                        |
+       | To fullfill this mission, insert in the submission script the three required lines to specify that the job should run for 10 minutes using 4 CPUs and  |
+       | 1000MB of RAM per CPU.                                                                                                                                 |
+       |                                                                                                                                                        |
+       | Useful parameters                                                                                                                                      |
+       | =================                                                                                                                                      |
+       |                                                                                                                                                        |
+       | --time                                                                                                                                                 |
+       | Specify the maximum duration of the job. It is expressed as days, hours, minutes and second in the format d-hh:mm:ss but can be simplified as hh:mm    |
+       |                                                                                                                                                        |
+       | --cpus-per-task                                                                                                                                        |
+       | Number of CPUs required by the job. For now, we will ignore the word 'task' in the parameter name. We'll come back at this later.                      |
+       |                                                                                                                                                        |
+       | --mem-per-cpu                                                                                                                                          |
+       | Amount of memory, in MB, that are required for each CPU to work properly.                                                                              |
+       |                                                                                                                                                        |
+     __)________________________________________________________________________________________________________________________________________________________|
+()==(                                                                                                                                                          (@==()
+     '---------------------------------------------------------------------------------------------------------------------------------------------------------'
+#!/bin/bash
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem-per-cpu=1000
+#SBATCH --time=10:00
+
+[mission 8] $ gsh goal 8
+
+     _____________________________________________________________________________________________________________________________________________________________
+    /\                                                                                                                                                            \
+(O)===)><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><)==(O)
+    \/''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
+    (                                                                                                                                                            (
+     )  Mission goal                                                                                                                                              )
+    (   ============                                                                                                                                             (
+     )                                                                                                                                                            )
+    (   As stated in the previous mission, there are two main sections in a submission script. The first one is related to the resources requests. The second    (
+     )  one is the set of operations that must be carried out. The operations are called `steps`.                                                                 )
+    (                                                                                                                                                            (
+     )  Note that operations must be written *after* resource requests.                                                                                           )
+    (                                                                                                                                                            (
+     )  Step 0 is the submission script itself. It is implicit. All commands will be part of this step by default.                                                )
+    (                                                                                                                                                            (
+     )  To further create more steps, use the `srun` command. That command will                                                                                   )
+    (                                                                                                                                                            (
+     )  - setup the environment for parallel tasks                                                                                                                )
+    (   - monitor resource usage by the tasks                                                                                                                    (
+     )  - manage the tasks input/output and signals.                                                                                                              )
+    (                                                                                                                                                            (
+     )  The general usage of `srun` is                                                                                                                            )
+    (                                                                                                                                                            (
+     )      srun [SRUN_ARGS] COMMAND [COMMAND_ARGS]                                                                                                               )
+    (                                                                                                                                                            (
+     )  All arguments are optional. The COMMAND to run must be an executable.                                                                                     )
+    (                                                                                                                                                            (
+     )  To fullfill this mission, insert, in the submission script, the two needed lines to instruct the worker to perform two steps (in addition to the          )
+    (   submission script), the first one being to identify itself and the second being to sleep for 90 seconds.                                                 (
+     )                                                                                                                                                            )
+    (   In this example, we do not specify explicitely the number of (parallel) tasks; it is one by default.                                                     (
+     )                                                                                                                                                            )
+    (   Useful commands                                                                                                                                          (
+     )  ===============                                                                                                                                           )
+    (                                                                                                                                                            (
+     )  srun COMMAND                                                                                                                                              )
+    (     The `srun` command will start a job "step" by executing COMMAND.                                                                                       (
+     )                                                                                                                                                            )
+    (   hostname                                                                                                                                                 (
+     )    That command prints out the name of the worker.                                                                                                         )
+    (                                                                                                                                                            (
+     )  sleep N                                                                                                                                                   )
+    (     As the name implies the sleep command will do nothing for N seconds.                                                                                   (
+     )                                                                                                                                                            )
+    (                                                                                                                                                            (
+    /\''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\
+(O)===)><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><)==(O)
+    \/____________________________________________________________________________________________________________________________________________________________/
+
+#!/bin/bash
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem-per-cpu=1000
+#SBATCH --time=10:00
+srun hostname
+srun sleep 90
+
+[mission 9] $ gsh goal 9
+
+      _________________________________________________________________________________________________________________________________________________________
+    / \                                                                                                                                                        \.
+   |   | Mission goal                                                                                                                                          |.
+    \_ | ============                                                                                                                                          |.
+       |                                                                                                                                                       |.
+       | Now that the work order (submission script) is complete, it must be submitted to Slurm for background scheduling and allocation to a worker.          |.
+       |                                                                                                                                                       |.
+       | This is done with the sbatch command.                                                                                                                 |.
+       |                                                                                                                                                       |.
+       | If no error is found in the resource requests, Slurm will respond with a job ID. That ID will be used afterwards to refer to that job while querying  |.
+       | its status, requeuing, or cancelling it for instance.                                                                                                 |.
+       |                                                                                                                                                       |.
+       | To pass this mission, submit the submit.sh script and note the job ID.                                                                                |.
+       |                                                                                                                                                       |.
+       | Useful commands                                                                                                                                       |.
+       | ===============                                                                                                                                       |.
+       |                                                                                                                                                       |.
+       | sbatch [OPTIONS] SUBMISSIONSCRIPT                                                                                                                     |.
+       |   Submits the submission script SUBMISSIONSCRIPT to Slurm for scheduling. Slurm responds with the job ID upon successful submission.                  |.
+       |   ____________________________________________________________________________________________________________________________________________________|___
+       |  /                                                                                                                                                       /.
+       \_/_______________________________________________________________________________________________________________________________________________________/.
+
+[mission 9] $ sbatch submit.sh
+Submitted batch job 2283114
+[mission 9] $ gsh check
+What is the job ID your job ? 2283114
+
+[mission 10] $ gsh goal 10
+
+                                                                                        .---.
+                                                                                       /  .  \
+                                                                                      |\_/|   |
+                                                                                      |   |  /|
+  .-----------------------------------------------------------------------------------------' |
+ /  .-.                                                                                       |
+|  /   \                                                                                      |
+| |\_.  |   Mission goal                                                                      |
+|\|  | /|   ============                                                                      |
+| `---' |                                                                                     |
+|       |   You have now submitted a job. Upon completion, the worker will create             |
+|       |   one or two file(s) in the directory where you issued the sbatch command.          |
+|       |   Those files will contain the standard output (and standard error if any)          |
+|       |   of the operations listed in the job.                                              |
+|       |                                                                                     |
+|       |   To pass this mission, wait until your job has completed, and look for the         |
+|       |   output file. Its name follows the format slurm-JJJJJJJ.out where JJJJJJ is        |
+|       |   the job ID. It should contain the name of the worker. That information is         |
+|       |   the key to the next mission.                                                      |
+|       |                                                                                     |
+|       |   To check whether your job has completed, is running, or is still pending, use     |
+|       |   the squeue command. Once a job is completed, or failed, it exists the queue.      |
+|       |                                                                                     |
+|       |   Useful commands                                                                   |
+|       |   ===============                                                                   |
+|       |                                                                                     |
+|       |   squeue --me                                                                       |
+|       |                                                                                     |
+|       |   Lists all of your job in the queue.                                               |
+|       |                                                                                     |
+|       |   cat                                                                               |
+|       |                                                                                     |
+|       |   shows the contents of a file.                                                     |
+|       |                                                                                     |
+|       |                                                                                    /
+|       |-----------------------------------------------------------------------------------'
+\       |
+ \     /
+  `---'
+
+[mission 11] $ gsh goal 11
+
+  ____________________________________________________________________________________________________________________________________________
+ /  __                                                                                                                                    __  \
+|  /  \   Mission goal                                                                                                                   /  \  |
+|\ \   |  ============                                                                                                                  |   / /|
+| \___/|                                                                                                                                |\___/ |
+|      |  Slurm's accounting stores a lot of information about your job                                                                 |      |
+|      |                                                                                                                                |      |
+|      |  The goal of the mission is to use the sacct command to retrieve information about your job and compare resource request and   |      |
+|      |  usage, with respect to CPU, memory and also time.                                                                             |      |
+|      |                                                                                                                                |      |
+|      |  Useful information                                                                                                            |      |
+|      |  ==================                                                                                                            |      |
+|      |                                                                                                                                |      |
+|      |  sacct - query accounting database. This command has a `--format` parameter to choose which columns to display. Useful         |      |
+|      |  columns include:                                                                                                              |      |
+|      |                                                                                                                                |      |
+|      |  ReqMem: Requested memory MaxRSS: Actually-used memory Timelimit: Requested time limit                                         |      |
+|      |  Elapsed: Actual time used by the job                                                                                          |      |
+|      |  AllocCPUS: number of CPUs allocated to the job                                                                                |      |
+|      |  CPUTime: amount of CPU hours allocated to job                                                                                 |      |
+|      |  TotalCPU: amount of CPUtime actually consumed                                                                                 |      |
+|      |                                                                                                                                |      |
+|      |  For instance:                                                                                                                 |      |
+|      |                                                                                                                                |      |
+|      |  sacct --format jobid,state,ReqMem,MaxRSS,Timelimit,Elapsed,AllocCPUS,CPUTime,TotalCPU                                         |      |
+|      |                                                                                                                                |      |
+|      |  Remarks                                                                                                                       |      |
+|      |  -------                                                                                                                       |      |
+|      |                                                                                                                                |      |
+|      |  By default, sacct only shows your jobs for the current day. Options exist to show more jobs.                                  |      |
+|      |                                                                                                                                |      |
+ \     |________________________________________________________________________________________________________________________________|     /
+  \___/                                                                                                                                  \___/
+
+[mission 12] $ gsh goal 12
+
+      _________________________________________________________________________________________________________________________________
+    / \                                                                                                                                \.
+   |   | Mission goal                                                                                                                  |.
+    \_ | ============                                                                                                                  |.
+       |                                                                                                                               |.
+       | Slurm will kill jobs that over use resources or fail to end withing the time limit.                                           |.
+       |                                                                                                                               |.
+       | The goal of the mission is to submit a job that uses more memory than requested and consequently get it killed.               |.
+       |                                                                                                                               |.
+       | To that end, create a submission script that will request 1M of RAM and will use up 1G of memory. Submit then the script and  |.
+       | wait until the job has finished. The mission will be successful if the STATE of the latest of your jobs is OUT_OF_MEMORY.     |.
+       |                                                                                                                               |.
+       | Useful information                                                                                                            |.
+       | ==================                                                                                                            |.
+       |                                                                                                                               |.
+       | In Bash, you can create a variable holding 1 gigabyte of data with the command                                                |.
+       |                                                                                                                               |.
+       | printf -v x %1000000000s;                                                                                                     |.
+       |                                                                                                                               |.
+       | Remarks                                                                                                                       |.
+       | -------                                                                                                                       |.
+       |                                                                                                                               |.
+       | 1M per core is the minimum that can be requested.                                                                             |.
+       |   ____________________________________________________________________________________________________________________________|___
+       |  /                                                                                                                               /.
+       \_/_______________________________________________________________________________________________________________________________/.
+
+In SLURM, the unit of the --mem-per-cpu option is megabytes (MB) by default.
+
+This option is used to specify the amount of memory allocated per CPU core for a job. If your job has multiple CPUs, the total 
+memory available to the job will be the value you provide multiplied by the number of CPUs requested.
+
+Example:
+bash
+
+sbatch --mem-per-cpu=2048 --cpus-per-task=4 myscript.sh
+In this example:
+
+Each CPU core gets 2048 MB (2 GB) of memory.
+Since --cpus-per-task=4 requests 4 CPUs, the total memory allocated to the job will be 4 × 2048 MB = 8192 MB (8 GB).
+Specifying Units:
+You can also explicitly specify the units by appending K, M, G, or T (for kilobytes, megabytes, gigabytes, or terabytes).
+
+Example with units:
+bash
+
+sbatch --mem-per-cpu=2G myscript.sh
+Here, each CPU core gets 2 GB of memory.
+
+Summary:
+Default Unit: Megabytes (MB).
+Custom Units: You can specify K (KB), M (MB), G (GB), or T (TB) if needed.
+
+[mission 12] $ cat submit.sh
+#!/bin/bash
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=1
+#SBATCH --time=10:00
+
+printf -v x %1000000000s;
+srun hostname
+srun sleep 15
+
+sbatch submit.sh
+
+[mission 13] $ gsh goal 13
+
+ __^__                                                                                                                                __^__
+( ___ )------------------------------------------------------------------------------------------------------------------------------( ___ )
+ |   |                                                                                                                                |   |
+ | / |  Mission goal                                                                                                                  | \ |
+ | / |  ============                                                                                                                  | \ |
+ | / |                                                                                                                                | \ |
+ | / |  The order in which the jobs are handled by Slurm depends on their priority. The priority is computed from multiple factors,   | \ |
+ | / |  which can be discovered with sprio.                                                                                           | \ |
+ | / |                                                                                                                                | \ |
+ | / |  The goal of the mission is to find out the weight of fairshare in the priority computations on this cluster. Once you know    | \ |
+ | / |  the number, run gsh check and answer the question.                                                                            | \ |
+ | / |                                                                                                                                | \ |
+ | / |                                                                                                                                | \ |
+ | / |  Useful commands                                                                                                               | \ |
+ | / |  ===============                                                                                                               | \ |
+ | / |                                                                                                                                | \ |
+ | / |  sprio -w                                                                                                                      | \ |
+ | / |    lists the weights of each term in the computation of the priority                                                           | \ |
+ | / |                                                                                                                                | \ |
+ | / |  Remarks                                                                                                                       | \ |
+ | / |  -------                                                                                                                       | \ |
+ | / |                                                                                                                                | \ |
+ | / |  If no number is shown in a column, it means that term is not included in the computation.                                     | \ |
+ |___|                                                                                                                                |___|
+(_____)------------------------------------------------------------------------------------------------------------------------------(_____)
+
+
+400000
+
+    /\                                                                                                                                  \
+(O)===)><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><)==(O)
+    \/''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/
+    (                                                                                                                                  (
+     )  Mission goal                                                                                                                    )
+    (   ============                                                                                                                   (
+     )                                                                                                                                  )
+    (   If you realise that one of your jobs behaves incorrectly, you should cancel it and re-submit a corrected version. Cancelling   (
+     )  is done with the scancel command.                                                                                               )
+    (                                                                                                                                  (
+     )  The goal of the missions is to attempt cancelling the job of another user. That will increase the changes that Slurm finds      )
+    (   resources for your jobs. When you've run scancel on another user's job, run the gsh check command and answer the question.     (
+     )                                                                                                                                  )
+    (   Useful commands                                                                                                                (
+     )  ===============                                                                                                                 )
+    (                                                                                                                                  (
+     )  scancel JOBID                                                                                                                   )
+    (     cancels the specified job                                                                                                    (
+     )                                                                                                                                  )
+    (   Remarks                                                                                                                        (
+     )  -------                                                                                                                         )
+    (                                                                                                                                  (
+     )  The scancel command accepts multiple parameters to choose which jobs to cancel. For instance, you can cancel all of your        )
+    (   jobs that are currently pending with scancel -u $USER -t PD                                                                    (
+     )                                                                                                                                  )
+    (                                                                                                                                  (
+    /\''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\
+(O)===)><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><)==(O)
+    \/__________________________________________________________________________________________________________________________________/
+
+echo $USER
+mjoiret
+
+

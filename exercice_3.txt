@@ -1,0 +1,28 @@
+#!/bin/bash
+# retrieve the words from the file called 'randomWords.txt' in the same directory
+# and build an array with all the words that were read in this file:
+tstart=$( date +%S )
+counter=0
+myWordsArray=( )
+for word in $(cat ./randomWords.txt);do
+        myWordsArray[$counter]=$word
+        (( counter++ ))
+done
+echo "$counter words were retrieved from the file and the length of the array is ${#myWordsArray[@]}."
+echo "These words are the following:"
+cumulatedLetters=0
+correctTotal=0
+for word in ${myWordsArray[@]}; do
+        echo "Please enter the number of letters in the word:"
+        echo $word
+        read nbOfLetters
+        echo "The correct number of letters in this word was ${#word} and your answer was $nbOfLetters."
+        cumulatedLetters=$(( cumulatedLetters + nbOfLetters ))
+        correctTotal=$(( correctTotal + ${#word} ))
+done
+echo "The total number of letters from your count of the words in the file was $cumulatedLetters. The correct answer is $correctTotal."
+tstop=$( date +%S )
+# Compute the elapsed time as the difference between the start and stop time in milliseconds:
+elapsed_time=$(( (tstop - tstart) ))
+# Display the total elapsed time:
+echo " The elapsed time in seconds to execute this task was $elapsed_time (s)."

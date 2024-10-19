@@ -1,0 +1,46 @@
+[mjoiret@lm4-f001 bash_exercices]$ cat exercice_4.sh
+#!/bin/bash
+# retrieve the words from the file called 'randomWords.txt' in the same directory
+# and build an array with all the words that were read in this file:
+tstart=$( date +%S )
+counter=0
+myWordsArray=( )
+for word in $(cat ./randomWords.txt);do
+        myWordsArray[$counter]=$word
+        (( counter++ ))
+done
+echo "$counter words were retrieved from the file and the length of the array is ${#myWordsArray[@]}."
+echo "These words are the following:"
+cumulatedLetters=0
+correctTotal=0
+output="./output.txt"
+# clear the output file if it exists:
+> $output
+for word in ${myWordsArray[@]}; do
+        echo "Please enter the number of letters in the word:"
+        echo $word
+        read nbOfLetters
+        echo "The correct number of letters in this word was ${#word} and your answer was $nbOfLetters."
+        cumulatedLetters=$(( cumulatedLetters + nbOfLetters ))
+        correctTotal=$(( correctTotal + ${#word} ))
+        character_count=${#word}
+        echo "$character_count" >> $output
+done
+echo "The total number of letters from your count of the words in the file was $cumulatedLetters. The correct answer is $correctTotal."
+# Open the output file with the number of letters of each word and sum them, then display the result:
+input="./output.txt"
+totalFromFile=0
+while IFS= read -r letterNumb; do
+        totalFromFile=$(( totalFromFile + $letterNumb ))
+done < "$input"
+echo "The total number of letters as computed from the output file $input is $totalFromFile."
+tstop=$( date +%S )
+# Compute the elapsed time as the difference between the start and stop time in seconds:
+elapsed_time=$(( (tstop - tstart)*1000 ))
+# Display the total elapsed time:
+echo " The elapsed time in milliseconds to execute this task was $elapsed_time milliseconds."
+# Convert the elapsed time to minutes and seconds
+minutes=$(($elapsed_time / 60000))
+seconds=$((($elapsed_time/1000) % 60))
+# Display the elapsed time in minutes and seconds
+echo "Elapsed time: $minutes minutes and $seconds seconds."

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export PATH=/opt/sw/arch/easybuild/2023a/software/DMTCP/3.0.0-GCCcore-12.3.0/bin:/opt/sw/arch/easybuild/2023a/software/Python/3.11.3-GCCcore-12.3.0/bin:/opt/sw/arch/easybuild/2023a/software/OpenSSL/1.1/bin:/opt/sw/arch/easybuild/2023a/software/XZ/5.4.2-GCCcore-12.3.0/bin:/opt/sw/arch/easybuild/2023a/software/SQLite/3.42.0-GCCcore-12.3.0/bin:/opt/sw/arch/easybuild/2023a/software/Tcl/8.6.13-GCCcore-12.3.0/bin:/opt/sw/arch/easybuild/2023a/software/ncurses/6.4-GCCcore-12.3.0/bin:/opt/sw/arch/easybuild/2023a/software/bzip2/1.0.8-GCCcore-12.3.0/bin:/opt/sw/arch/easybuild/2023a/software/binutils/2.40-GCCcore-12.3.0/bin:/opt/sw/arch/easybuild/2023a/software/GCCcore/12.3.0/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/CECI/soft/cecisw/noarch/manual/ceci-tools/bin:/tmp/.omattelaer.sshrc.CYYX
+export DMTCP_COORD_HOST=lm4-w039
+export DMTCP_COORD_PORT=41805
+dmtcp_command $@

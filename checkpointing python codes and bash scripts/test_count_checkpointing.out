@@ -1,0 +1,358 @@
+Fri Oct 18 10:44:05 CEST 2024
+execute count program without checkpointing
+Lmod has detected the following error: The following module(s) are unknown: "releases/2017b"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "releases/2017b"
+
+Also make sure that all modulefiles written in TCL start with the string #%Module
+
+If you don't understand the warning or error, contact the helpdesk at egs-cism@listes.uclouvain.be 
+
+
+Lmod has detected the following error: The following module(s) are unknown: "Python/2.7.14-foss-2017b"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "Python/2.7.14-foss-2017b"
+
+Also make sure that all modulefiles written in TCL start with the string #%Module
+
+If you don't understand the warning or error, contact the helpdesk at egs-cism@listes.uclouvain.be 
+
+
+/var/spool/slurm//job2290195/slurm_script: line 14: python: command not found
+slurmstepd: error: execve(): python: No such file or directory
+srun: error: lm4-w040: task 0: Exited with exit code 2
+Fri Oct 18 11:06:52 CEST 2024
+execute count program without checkpointing
+Python 3.11.3
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+srun: Job step aborted: Waiting up to 302 seconds for job step to finish.
+slurmstepd: error: *** STEP 2290314.0 ON lm4-w040 CANCELLED AT 2024-10-18T11:08:00 DUE TO TIME LIMIT ***
+slurmstepd: error: *** JOB 2290314 ON lm4-w040 CANCELLED AT 2024-10-18T11:08:00 DUE TO TIME LIMIT ***
+slurmstepd: error: container_p_join: setns failed for /localscratch/tmpdirs/2290314/.ns: Invalid argument
+slurmstepd: error: container_g_join(2290314): Invalid argument
+Fri Oct 18 11:12:44 CEST 2024
+execute count program without checkpointing
+Python 3.11.3
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+srun: Job step aborted: Waiting up to 302 seconds for job step to finish.
+slurmstepd: error: *** STEP 2290320.0 ON lm4-w040 CANCELLED AT 2024-10-18T11:14:00 DUE TO TIME LIMIT ***
+slurmstepd: error: *** JOB 2290320 ON lm4-w040 CANCELLED AT 2024-10-18T11:14:00 DUE TO TIME LIMIT ***
+Fri Oct 18 11:34:49 CEST 2024
+execute count program with checkpointing example from the software itself...
+Python 3.11.3
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+srun: Job step aborted: Waiting up to 302 seconds for job step to finish.
+slurmstepd: error: *** JOB 2290327 ON lm4-w040 CANCELLED AT 2024-10-18T11:36:00 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 2290327.0 ON lm4-w040 CANCELLED AT 2024-10-18T11:36:00 DUE TO TIME LIMIT ***
+slurmstepd: error: container_p_join: setns failed for /localscratch/tmpdirs/2290327/.ns: Invalid argument
+slurmstepd: error: container_g_join(2290327): Invalid argument
+Fri Oct 18 11:39:01 CEST 2024
+execute count program with checkpointing example from the software itself...
+Python 3.11.3
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+srun: Job step aborted: Waiting up to 302 seconds for job step to finish.
+slurmstepd: error: *** JOB 2290328 ON lm4-w040 CANCELLED AT 2024-10-18T11:40:30 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 2290328.0 ON lm4-w040 CANCELLED AT 2024-10-18T11:40:30 DUE TO TIME LIMIT ***
+slurmstepd: error: container_p_join: setns failed for /localscratch/tmpdirs/2290328/.ns: Invalid argument
+slurmstepd: error: container_g_join(2290328): Invalid argument
