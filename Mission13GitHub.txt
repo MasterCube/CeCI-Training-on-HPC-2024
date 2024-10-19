@@ -395,3 +395,58 @@ To https://github.com/MasterCube/Ribosomer-in-python.git
    ff27bc3..8c976a6  main -> main
 
 C:\Users\marcjoiret\Dropbox\PC\Desktop\ONGOING\RIBOSOMERinPython\Ribosomer-in-python>
+
+******************************************************************************************************************************************************
+
+To create a GitHub repository from your local directory ("CeCI Training on HPC 2024") and push it to your existing GitHub account, follow these steps:
+
+1. Create a New Repository on GitHub:
+Go to your GitHub account.
+Click on the Repositories tab and then click New.
+Give your repository a name (e.g., CeCI-Training-on-HPC-2024), set the repository to either public or private, and choose whether to initialize it with a README (optional, but recommended).
+Click Create repository.
+Once created, GitHub will show you instructions to push an existing folder to the remote repository.
+
+2. Initialize Your Local Directory as a Git Repository:
+Open your terminal and navigate to the directory on your laptop:
+
+bash
+
+cd /path/to/CeCI\ Training\ on\ HPC\ 2024
+Then, initialize the directory as a Git repository:
+
+bash
+Copy code
+git init
+3. Add Your Files and Make Your First Commit:
+bash
+
+git add .
+git commit -m "Initial commit for CeCI Training on HPC 2024"
+4. Link Your Local Repository to the GitHub Remote Repository:
+Now, link the local repository to the GitHub remote repository you just created. Copy the remote repository's URL from GitHub (e.g., https://github.com/your-username/CeCI-Training-on-HPC-2024.git), and then add it to your local repository:
+
+bash
+
+git remote add origin https://github.com/your-username/CeCI-Training-on-HPC-2024.git
+5. Push Your Local Repository to GitHub:
+Push the changes from your local repository to GitHub:
+
+bash
+
+git push -u origin master
+6. Get Your GitHub Account Username and URL:
+To find your GitHub username and account URL:
+
+Your GitHub username is typically displayed at the top-right corner of the GitHub page when logged in.
+The URL to your GitHub profile is typically:
+bash
+
+https://github.com/your-username
+Summary:
+Create a new GitHub repository.
+Initialize your local directory as a Git repository.
+Add and commit the files.
+Link the local repository to the GitHub remote.
+Push to GitHub.
+Let me know if you need any further assistance with these steps!
